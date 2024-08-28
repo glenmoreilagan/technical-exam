@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FactoryFormRequest;
 use App\Http\Requests\FactoryUpdateFormRequest;
 use App\Models\Factory;
+use App\Events\ModelEventService;
 
 class FactoryController extends Controller
 {
@@ -17,16 +18,38 @@ class FactoryController extends Controller
     return view('Factories.factories', ['data' => $factories]);
   }
 
-  public function store(FactoryFormRequest $request)
+  public function create()
   {
-    $payload = $request->validated();
+    return view('Factories.create-factory');
+  }
 
-    Factory::create([
+  public function show(Request $request, $id)
+  {
+    $factory = Factory::find($id);
+
+    return view('Factories.edit-factory', ['data' => $factory]);
+  }
+
+  public function store(Request $request)
+  {
+    $payload = $request->validateWithBag('create_error', [
+      'action_type' => ['string'],
+      'factory_name' => ['required'],
+      'location' => ['required'],
+      'email' => ['required', 'email:rfc,dns'],
+      'website' => ['required', 'url:http,https'],
+    ]);
+
+    $factory = Factory::create([
       'factory_name' => $payload['factory_name'],
       'location' => $payload['location'],
       'email' => $payload['email'],
       'website' => $payload['website'],
     ]);
+
+    $new_values = $factory->getOriginal();
+
+    event(new ModelEventService(Factory::class, $factory->id, ['create' => $new_values]));
 
     return redirect()->route('factories')->with('message', 'New factory created!');
   }
@@ -35,11 +58,17 @@ class FactoryController extends Controller
   {
     $factory = Factory::find($id);
 
+    $original_values = $factory->getOriginal();
+
     $factory->factory_name = $request->factory_name;
     $factory->location = $request->location;
     $factory->email = $request->email;
     $factory->website = $request->website;
     $factory->save();
+
+    $updated_values = $factory->getOriginal();
+
+    event(new ModelEventService(Factory::class, $factory->id, ['update' => ['old_data' => $original_values, 'updated_data' => $updated_values]]));
 
     return redirect()->route('factories')->with('message', 'Factory Updated!');
   }
@@ -47,7 +76,12 @@ class FactoryController extends Controller
   public function destroy($id)
   {
     $factory = Factory::find($id);
+
+    $original_values = $factory->getOriginal();
+
     $factory->delete();
+
+    event(new ModelEventService(Factory::class, $factory->id, ['deleted' => $original_values]));
 
     return redirect()->route('factories')->with('message', 'Factory Deleted!');
   }

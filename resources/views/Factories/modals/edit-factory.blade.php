@@ -1,5 +1,5 @@
-<x-modal name="edit-factory" :show="$errors->any()" focusable>
-    <form method="POST" action="" class="p-6" id="edit-factory-form">
+<x-modal name="edit-factory" :show="$errors->any() || request('q')" focusable>
+    <form method="POST" action="{{ route('factories.update', [request('q')]) }}" class="p-6" id="edit-factory-form">
         @csrf
         @method('PUT')
 

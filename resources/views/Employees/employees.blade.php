@@ -10,10 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="mb-5 flex justify-end">
-                        <x-primary-button x-data=""
-                            x-on:click.prevent="$dispatch('open-modal', 'create-new-employee')">
-                            Create
-                        </x-primary-button>
+                        <a href="/employees/create">
+                            <x-primary-button>
+                                Create
+                            </x-primary-button>
+                        </a>
                     </div>
 
                     <div class="mb-5">
@@ -35,12 +36,11 @@
                                         <td class="px-3 py-1">{{ $row->email }}</td>
                                         <td class="px-3 py-1">{{ $row->phone }}</td>
                                         <td class="px-3 py-1 text-center">
-                                            <x-primary-button x-data=""
-                                                onclick="handleEdit({{ $row }})"
-                                                dataAttributes="rowId = {{ $row->id }}"
-                                                x-on:click.prevent="$dispatch('open-modal', 'edit-employee')">
-                                                Edit
-                                            </x-primary-button>
+                                            <a href="/employees/edit/{{ $row->id }}">
+                                                <x-primary-button>
+                                                    Edit
+                                                </x-primary-button>
+                                            </a>
                                             <form class="inline-block" method="POST"
                                                 action="{{ env('APP_URL') }}/employees/{{ $row->id }}">
                                                 @csrf
@@ -65,21 +65,4 @@
             </div>
         </div>
     </div>
-
-    @include('Employees.modals.create-new-employee')
-    @include('Employees.modals.edit-employee')
-
 </x-app-layout>
-<script>
-    const BASE_URL = '{{ env('APP_URL') }}';
-
-    const handleEdit = (data) => {
-        console.log(data)
-        $("#edit-employee-form").prop('action', `${BASE_URL}/employees/${data.id}`)
-        $("#edit-employee-form #firstname").val(data.firstname);
-        $("#edit-employee-form #lastname").val(data.lastname);
-        $("#edit-employee-form #factory").val(data.factory_id).change();
-        $("#edit-employee-form #email").val(data.email);
-        $("#edit-employee-form #phone").val(data.phone);
-    }
-</script>

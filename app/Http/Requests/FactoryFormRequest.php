@@ -22,6 +22,7 @@ class FactoryFormRequest extends FormRequest
   public function rules(): array
   {
     return [
+      'action_type' => ['string'],
       'factory_name' => ['required'],
       'location' => ['required'],
       'email' => ['required', 'email:rfc,dns'],

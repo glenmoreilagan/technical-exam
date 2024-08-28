@@ -30,11 +30,15 @@ Route::middleware('auth')->group(function () {
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
   Route::get('/factories', [FactoryController::class, 'index'])->name('factories');
+  Route::get('/factories/create', [FactoryController::class, 'create'])->name('factories.create');
+  Route::get('/factories/edit/{id}', [FactoryController::class, 'show'])->name('factories.edit');
   Route::post('/factories', [FactoryController::class, 'store'])->name('factories.store');
   Route::put('/factories/{id}', [FactoryController::class, 'update'])->name('factories.update');
   Route::delete('/factories/{id}', [FactoryController::class, 'destroy'])->name('factories.delete');
 
   Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+  Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+  Route::get('/employees/edit/{id}', [EmployeeController::class, 'show'])->name('employees.edit');
   Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
   Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
   Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
