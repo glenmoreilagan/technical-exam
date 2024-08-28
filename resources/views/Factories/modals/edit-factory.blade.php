@@ -4,7 +4,7 @@
         @method('PUT')
 
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Create new factory') }}
+            {{ __('Edit factory') }}
         </h2>
 
         {{-- <x-alert-component :type="'success'" :value="session('message')" /> --}}

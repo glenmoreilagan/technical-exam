@@ -34,7 +34,7 @@
                                         <td class="px-3 py-1">{{ $row->location }}</td>
                                         <td class="px-3 py-1">{{ $row->email }}</td>
                                         <td class="px-3 py-1">{{ $row->website }}</td>
-                                        <td class="px-3 py-1">
+                                        <td class="px-3 py-1 text-center">
                                             <x-primary-button x-data=""
                                                 onclick="handleEdit({{ $row }})"
                                                 dataAttributes="rowId = {{ $row->id }}"

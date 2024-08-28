@@ -12,14 +12,13 @@ class FactoryController extends Controller
 
   public function index()
   {
-    $factories = Factory::query()->latest()->paginate(5);
+    $factories = Factory::query()->with('employees')->latest()->paginate(10);
 
     return view('Factories.factories', ['data' => $factories]);
   }
 
-  public function create(FactoryFormRequest $request)
+  public function store(FactoryFormRequest $request)
   {
-
     $payload = $request->validated();
 
     Factory::create([

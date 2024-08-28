@@ -15,7 +15,7 @@ return new class extends Migration
       $table->id();
       $table->string('firstname');
       $table->string('lastname');
-      $table->foreignId('factory_id')->nullable()->constrained();
+      $table->foreignId('factory_id')->nullable()->constrained()->nullOnDelete();
       $table->string('email');
       $table->string('phone');
       $table->timestamps();

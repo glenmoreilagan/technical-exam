@@ -1,5 +1,5 @@
 <x-modal name="create-new-factory" :show="$errors->any()" focusable>
-    <form method="post" action="{{ route('factories.create') }}" class="p-6">
+    <form method="post" action="{{ route('factories.store') }}" class="p-6">
         @csrf
 
         <h2 class="text-lg font-medium text-gray-900">

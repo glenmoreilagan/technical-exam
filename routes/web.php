@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -29,11 +30,14 @@ Route::middleware('auth')->group(function () {
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
   Route::get('/factories', [FactoryController::class, 'index'])->name('factories');
-  Route::post('/factories', [FactoryController::class, 'create'])->name('factories.create');
+  Route::post('/factories', [FactoryController::class, 'store'])->name('factories.store');
   Route::put('/factories/{id}', [FactoryController::class, 'update'])->name('factories.update');
   Route::delete('/factories/{id}', [FactoryController::class, 'destroy'])->name('factories.delete');
 
-  Route::get('/employees', fn() => view('Employees.employees'))->name('employees');
+  Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+  Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+  Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+  Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 });
 
 require __DIR__ . '/auth.php';
